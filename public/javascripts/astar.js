@@ -2,7 +2,7 @@
  * Created by ruslan on 27.06.2017.
  */
 
-var Action = {PUT_WALL: 0, REMOVE_WALL: 1, PUT_START_POINT: 2, PUT_END_POINT: 3};
+var Action = {PUT_WALL: 0, REMOVE_WALL: 1, PUT_START_POINT: 2, PUT_END_POINT: 3, selected: null};
 
 var Class = {
     STONG_WALL: 'strongWall',
@@ -15,30 +15,28 @@ var Class = {
 };
 
 
-var selectedAction = null;
-
 var putWallBtn = document.getElementById('putWall');
 putWallBtn.onclick = function () {
-    make(this);
-    selectedAction = Action.PUT_WALL;
+    paintButton(this);
+    Action.selected = Action.PUT_WALL;
 };
 
 var removeWallBtn = document.getElementById('removeWall')
 removeWallBtn.onclick = function () {
-    make(this);
-    selectedAction = Action.REMOVE_WALL;
+    paintButton(this);
+    Action.selected = Action.REMOVE_WALL;
 };
 
 var putStartPointBtn = document.getElementById('putStartPoint')
 putStartPointBtn.onclick = function () {
-    make(this);
-    selectedAction = Action.PUT_START_POINT;
+    paintButton(this);
+    Action.selected = Action.PUT_START_POINT;
 };
 
 var putEndPointBtn = document.getElementById('putEndPoint')
 putEndPointBtn.onclick = function () {
-    make(this);
-    selectedAction = Action.PUT_END_POINT;
+    paintButton(this);
+    Action.selected = Action.PUT_END_POINT;
 };
 
 var clearAllBtn = document.getElementById('clearAll')
@@ -51,7 +49,7 @@ runBtn.onclick = function () {
 };
 
 
-var make = function () {
+var paintButton = function () {
     var prevClickedButton = null;
     return function (btn) {
         if (prevClickedButton !== null) {
@@ -71,6 +69,7 @@ var table = document.getElementById('table');
 
 var TABLE_WIDTH = 100;
 var TABLE_HEIGHT = 50;
+
 var mousePressed = false;
 var startPoint = false;
 var endPoint = false;
@@ -101,7 +100,7 @@ var prevEndPoint = null;
 
 function addPointsInTable(cell) {
     if (!cell.classList.contains(Class.STONG_WALL)) {
-        switch (selectedAction) {
+        switch (Action.selected) {
             case Action.PUT_WALL: {
                 if (cell.className === '') {
                     cell.classList.add(Class.WALL);
@@ -292,12 +291,10 @@ function start() {
     clearPath();
 
     var array = [TABLE_HEIGHT];
-    var point;
     var openList = [];
     var closedList = [];
     var targetPoint;
     var parentPoint;
-
 
     for (var row = 0; row < TABLE_HEIGHT; row++) {
         array[row] = [TABLE_WIDTH];
@@ -306,13 +303,13 @@ function start() {
             if (tmp.className === Class.STONG_WALL || tmp.parentNode.className === Class.STONG_WALL || tmp.className === Class.WALL) {
                 array[row][col] = new Point('#', col, row);
             } else if (tmp.className === Class.START_POINT) {
-                point = new Point('S', col, row);
+                var point = new Point('S', col, row);
                 point.setStartPoint();
                 point.setValue(0);
                 array[row][col] = point;
                 openList.push(point);
             } else if (tmp.className === Class.END_POINT) {
-                point = new Point('E', col, row);
+                var point = new Point('E', col, row);
                 point.setEndPoint();
                 targetPoint = point;
                 array[row][col] = point;
@@ -325,26 +322,25 @@ function start() {
 
     if (AlgoType === 'Astar') {
         var timer = setInterval(function () {
-            if (!openList.length == 0)
-                if (!targetPointInOpenList()) {
-                    parentPoint = getMinElemenent();
-                    addInClossedListAndDeleteFromOpenList(parentPoint);
-                    checkPoint(-1, 0);
-                    checkPoint(-1, -1);
-                    checkPoint(0, -1);
-                    checkPoint(1, -1);
-                    checkPoint(1, 0);
-                    checkPoint(1, 1);
-                    checkPoint(0, 1);
-                    checkPoint(-1, 1);
-                } else {
-                    clearInterval(timer);
-                    printAStar();
-                }
+            if (openList.length !== 0 && targetPointNotInOpenList()) {
+                parentPoint = getMinElemenent();
+                addInClossedListAndDeleteFromOpenList(parentPoint);
+                checkPoint(-1, 0);
+                checkPoint(-1, -1);
+                checkPoint(0, -1);
+                checkPoint(1, -1);
+                checkPoint(1, 0);
+                checkPoint(1, 1);
+                checkPoint(0, 1);
+                checkPoint(-1, 1);
+            } else {
+                clearInterval(timer);
+                printAStar();
+            }
         }, delay);
     } else if (AlgoType === 'wave') {
         var timer = setInterval(function () {
-            if (!openList.length == 0 && !targetPointInOpenList()) {
+            if (openList.length !== 0 && targetPointNotInOpenList()) {
                 for (var property in openList) {
                     parentPoint = openList[property];
                     addInClossedListAndDeleteFromOpenList(parentPoint);
@@ -375,7 +371,7 @@ function start() {
 
 
     function printWave() {
-        if (!targetPointInOpenList()) {
+        if (targetPointNotInOpenList()) {
             alert("путь не найден");
             blockAllButtons(false);
             return;
@@ -410,7 +406,7 @@ function start() {
     //==методы для А стар ======================================================
 
     function printAStar() {
-        if (!targetPointInOpenList()) {
+        if (targetPointNotInOpenList()) {
             alert("путь не найден");
             blockAllButtons(false);
             return;
@@ -426,13 +422,13 @@ function start() {
     }
 
 
-    function targetPointInOpenList() {
+    function targetPointNotInOpenList() {
         for (var property  in openList) {
             if (openList[property].isEndPoint()) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
 
