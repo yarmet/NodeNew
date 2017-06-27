@@ -10,11 +10,6 @@ table td {
     width: 12px;
 }
 
-table td:hover {
-    border: 2px solid #c2c2c2;
-}
-
-
 .panel-default {
     margin-top: 15px;
     padding: 10px;

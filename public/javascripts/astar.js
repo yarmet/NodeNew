@@ -2,14 +2,17 @@
  * Created by ruslan on 27.06.2017.
  */
 
-var Action = {};
-Action.PUT_WALL = 0;
-Action.REMOVE_WALL = 1;
-Action.PUT_START_POINT = 2;
-Action.PUT_END_POINT = 3;
+var Action = {PUT_WALL: 0, REMOVE_WALL: 1, PUT_START_POINT: 2, PUT_END_POINT: 3};
 
-
-
+var Class = {
+    STONG_WALL: 'strongWall',
+    WALL: 'wall',
+    START_POINT: 'startPoint',
+    END_POINT: 'endPoint',
+    OPEN: 'open',
+    CLOSED: 'closed',
+    PATH: 'path'
+};
 
 
 var selectedAction = null;
@@ -66,7 +69,7 @@ var delaySelectButton = document.getElementById("select");
 var algoTypeButton = document.getElementById("algo");
 var table = document.getElementById('table');
 
-var TABLE_WIDTH = 70;
+var TABLE_WIDTH = 100;
 var TABLE_HEIGHT = 50;
 var mousePressed = false;
 var startPoint = false;
@@ -88,7 +91,7 @@ for (var i = 0; i < TABLE_HEIGHT; i++) {
         var cell = row.insertCell(j);
         cell.onmouseover = mouseDrug;
         cell.onmousedown = mouseDown;
-        if (i === 0 || i === TABLE_HEIGHT - 1 || j === 0 || j === TABLE_WIDTH - 1) cell.classList.add("strongWall");
+        if (i === 0 || i === TABLE_HEIGHT - 1 || j === 0 || j === TABLE_WIDTH - 1) cell.classList.add(Class.STONG_WALL);
     }
 }
 
@@ -97,20 +100,20 @@ var prevEndPoint = null;
 
 
 function addPointsInTable(cell) {
-    if (!cell.classList.contains('strongWall')) {
+    if (!cell.classList.contains(Class.STONG_WALL)) {
         switch (selectedAction) {
             case Action.PUT_WALL: {
                 if (cell.className === '') {
-                    cell.classList.add("wall");
+                    cell.classList.add(Class.WALL);
                 }
                 break;
             }
             case Action.PUT_START_POINT: {
                 if (cell.className === '') {
                     if (prevStartPoint !== null) {
-                        prevStartPoint.classList.remove("startPoint");
+                        prevStartPoint.classList.remove(Class.START_POINT);
                     }
-                    cell.classList.add('startPoint');
+                    cell.classList.add(Class.START_POINT);
                     startPoint = true;
                     prevStartPoint = cell;
                 }
@@ -119,16 +122,16 @@ function addPointsInTable(cell) {
             case Action.PUT_END_POINT: {
                 if (cell.className === '') {
                     if (prevEndPoint !== null) {
-                        prevEndPoint.classList.remove("endPoint");
+                        prevEndPoint.classList.remove(Class.END_POINT);
                     }
-                    cell.classList.add('endPoint');
+                    cell.classList.add(Class.END_POINT);
                     endPoint = true;
                     prevEndPoint = cell;
                 }
                 break;
             }
             case Action.REMOVE_WALL: {
-                cell.classList.remove("wall");
+                cell.classList.remove(Class.WALL);
                 break;
             }
         }
@@ -258,7 +261,7 @@ function clearPath() {
     for (i = 0; i < TABLE_HEIGHT; i++) {
         for (j = 0; j < TABLE_WIDTH; j++) {
             var curTD = table.rows[i].cells[j];
-            if (curTD.className === 'open' || curTD.className === 'closed' || curTD.className === 'path') {
+            if (curTD.className === Class.OPEN || curTD.className === Class.CLOSED || curTD.className === Class.PATH) {
                 curTD.className = '';
             }
         }
@@ -300,15 +303,15 @@ function start() {
         array[row] = [TABLE_WIDTH];
         for (var col = 0; col < TABLE_WIDTH; col++) {
             var tmp = table.rows[row].cells[col];
-            if (tmp.className === 'strongWall' || tmp.parentNode.className === 'strongWall' || tmp.className === 'wall') {
+            if (tmp.className === Class.STONG_WALL || tmp.parentNode.className === Class.STONG_WALL || tmp.className === Class.WALL) {
                 array[row][col] = new Point('#', col, row);
-            } else if (tmp.className === 'startPoint') {
+            } else if (tmp.className === Class.START_POINT) {
                 point = new Point('S', col, row);
                 point.setStartPoint();
                 point.setValue(0);
                 array[row][col] = point;
                 openList.push(point);
-            } else if (tmp.className === 'endPoint') {
+            } else if (tmp.className === Class.END_POINT) {
                 point = new Point('E', col, row);
                 point.setEndPoint();
                 targetPoint = point;
@@ -397,7 +400,7 @@ function start() {
         var verifiablePoint = array[tmpY][tmpX];
 
         if (verifiablePoint.getValue() < point.getValue()) {
-            table.rows[verifiablePoint.getY()].cells[verifiablePoint.getX()].className = 'path';
+            table.rows[verifiablePoint.getY()].cells[verifiablePoint.getX()].className = Class.PATH;
             targetPoint = verifiablePoint;
             return true;
         }
@@ -415,7 +418,7 @@ function start() {
         var parent = targetPoint.getParent();
 
         while (!parent.isStartPoint()) {
-            table.rows[parent.getY()].cells[parent.getX()].className = 'path';
+            table.rows[parent.getY()].cells[parent.getX()].className = Class.PATH;
             targetPoint = parent;
             parent = targetPoint.getParent();
         }
@@ -435,8 +438,8 @@ function start() {
 
     function addInOpenList(point) {
         var curTD = table.rows[point.getY()].cells[point.getX()];
-        if (curTD.className !== 'startPoint' && curTD.className !== 'endPoint') {
-            curTD.className = 'open';
+        if (curTD.className !== Class.START_POINT && curTD.className !== Class.END_POINT) {
+            curTD.className = Class.OPEN;
         }
         point.addOpenList();
         openList.push(point);
@@ -454,8 +457,8 @@ function start() {
 
     function addInClossedListAndDeleteFromOpenList(point) {
         var curTD = table.rows[point.getY()].cells[point.getX()];
-        if (curTD.className !== 'startPoint' && curTD.className !== 'endPoint') {
-            curTD.className = 'closed';
+        if (curTD.className !== Class.START_POINT && curTD.className !== Class.END_POINT) {
+            curTD.className = Class.CLOSED;
         }
         point.addClossedList();
         closedList.push(point);
