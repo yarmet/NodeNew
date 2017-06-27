@@ -300,7 +300,7 @@ function start() {
         array[row] = [TABLE_WIDTH];
         for (var col = 0; col < TABLE_WIDTH; col++) {
             var tmp = table.rows[row].cells[col];
-            if (tmp.className === Class.STONG_WALL || tmp.parentNode.className === Class.STONG_WALL || tmp.className === Class.WALL) {
+            if (tmp.className === Class.STONG_WALL || tmp.className === Class.WALL) {
                 array[row][col] = new Point('#', col, row);
             } else if (tmp.className === Class.START_POINT) {
                 var point = new Point('S', col, row);
