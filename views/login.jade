@@ -1,0 +1,22 @@
+extends layout
+block content
+
+
+    div.container
+        div.row
+            div.col-lg-4
+            div.col-lg-4
+                h3 войти в айти
+                form(method="post" action="/login" )
+                    div.form-group
+                        input.form-control(type="username",name="username", placeholder="логин")
+                    div.form-group
+                        input.form-control(type="password",name="password", placeholder="пароль")
+                    div.checkbox
+                        label
+                            input(type="checkbox",name="remember")
+                            span запомнить
+                    button#login.btn.btn-success войти
+
+                a(href="/registry") зарегистрироваться
+            div.col-lg-4

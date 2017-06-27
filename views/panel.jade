@@ -1,0 +1,14 @@
+nav.navbar.navbar-inverse.navbar-fixed-top
+    div.container-fluid
+
+        ul.nav.navbar-nav
+            li: a(href="/") главная
+            li: a(href="/sudoku") судоку
+            li: a(href="/astar") algorithm A*
+
+        div.nav.navbar-nav.navbar-right
+            li: a #{user}
+            li: a#logout(href="#") выйти
+
+
+script(src="/javascripts/panel.js")

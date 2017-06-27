@@ -1,0 +1,22 @@
+extends layout
+block content
+
+
+    div.container
+
+            div.row
+                div.col-lg-4
+                div.col-lg-4
+                    h3 зарегистрироваться в айти
+
+                    form(method="post" action="/registry" )
+                        div.form-group
+                            input.form-control(type="username",name="username", placeholder="логин")
+                        div.form-group
+                            input.form-control(type="password",name="password", placeholder="пароль")
+                        div.form-group
+                            input.form-control(type="password",name="repeat_password", placeholder="повторить пароль")
+                        button.btn.btn-default регистрироваться
+
+                    a(href="/login") залогиниться
+                div.col-lg-4

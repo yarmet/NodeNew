@@ -1,0 +1,151 @@
+extends layout
+block content
+
+    include panel.jade
+
+    div.container
+
+        div.row
+            div.col-lg-12.center
+
+                h1 Судоку
+
+                p Как работает судоку. Нужно заполнить его исходными числами, нажать кнопку 'считать' и недостающие цифры будут заполнены. Для заполнения ячейки нужно по ней кликнуть и нажать на клавитуре цифру от 1 до 9, для того, чтобы затереть ячейку нужно нажать ЛЮБУЮ другую клавишу на клавиатуре.
+                p Если после нажатие кнопки 'решить судоку' он заполнился частично, или не заполнился вовсе, то это означает, что исходные цифры были введены неверно, или их было недостаточно для решения судоку
+
+
+                style(type='text/css').
+                    .center {
+                        text-align: center;
+                    }
+
+                    table {
+                        margin: auto;
+                        border-collapse: collapse;
+                        background-color: mintcream;
+                        text-align: center;
+                        border: 3px solid black;
+                    }
+
+                    table td {
+                        border: 1px solid black;
+                        height: 60px;
+                        width: 60px;
+                        font-size: 30px;
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+
+                    .BoldBottomLine {
+                        border-bottom: 3px solid black;
+                    }
+
+                    .BoldRightLine {
+                        border-right: 3px solid black;;
+                    }
+
+                    .yellow {
+                        background: yellow;
+                    }
+
+                    #calculate {
+                        margin: 20px;
+                    }
+
+
+                table#table
+                    tr
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                    tr
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                    tr
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                    tr
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                    tr
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                    tr
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                    tr
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                    tr
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                    tr
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+                        td
+
+                button#calculate.btn.btn-success считать
+
+    script(src="/javascripts/sudoku.js")
+

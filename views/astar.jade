@@ -1,0 +1,43 @@
+extends layout
+block content
+
+    include panel.jade
+
+    link(rel='stylesheet', href='/stylesheets/astar.css')
+
+
+    div.container
+        div.row
+            div.col-lg-12.center
+
+                div.panel.panel-default
+                    label(for="select") скорость
+                    select#select
+                        option(value="0") очень быстро
+                        option(value="10" selected) быстро
+                        option(value="30") медленно
+
+
+                    label(for="algo") алгоритм
+                    select#algo
+                        option(value="wave") wave
+                        option(value="Astar" selected) A star
+                    br
+
+                    button#putWall.btn.btn-default поставить стену
+                    button#removeWall.btn.btn-default стереть стену
+                    button#putStartPoint.btn.btn-default установить стартовую точку
+                    button#putEndPoint.btn.btn-default установить конечную точку
+                    button#clearAll.btn.btn-default стереть все
+                    button#run.btn.btn-default запустить
+
+        div.row
+            div.col-lg-12.center
+                table#table
+
+    script(src="/javascripts/astar.js")
+
+
+
+
+

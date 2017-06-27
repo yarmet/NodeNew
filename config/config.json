@@ -1,0 +1,15 @@
+{
+  "port" : 3001,
+
+  "session": {
+    "secret": "killerIsJim",
+    "key": "sid",
+    "cookie": {
+      "path": "/",
+      "httpOnly": true,
+      "maxAge": null
+    }
+  }
+
+
+}
