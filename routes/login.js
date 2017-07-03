@@ -2,7 +2,7 @@
  * Created by ruslan on 25.06.2017.
  */
 
-var User = require('../database/User');
+var User = require('../database/DbUser');
 var HttpError = require('../errors/HttpError');
 
 exports.get = function (req, res) {

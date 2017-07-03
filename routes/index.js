@@ -20,4 +20,8 @@ module.exports = function (app) {
     app.get('/sudoku', CheckAuth, require('./sudoku').get);
 
     app.get('/astar', CheckAuth, require('./astar').get);
+
+    app.get('/words', CheckAuth, require('./words').get);
+    app.post('/words', CheckAuth, require('./words').post);
+
 };

@@ -22,6 +22,10 @@ var schema = mongoose.Schema({
     created: {
         type: Date,
         default: Date.now
+    },
+    role: {
+        type: String,
+        default: "user"
     }
 });
 
