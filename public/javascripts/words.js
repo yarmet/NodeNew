@@ -21,24 +21,25 @@ window.onload = function () {
         }
     };
 
+    var btnSaveWord = document.getElementById("save");
+    btnSaveWord.onclick = function () {
+        var json = JSON.stringify({russian: "русский", english: "английский"});
+        ajax("/words", json, function () {
+            modal.style.display = "none";
+        })
+    };
 
-    document.getElementById("save").onclick = ajax;
-
-
-    function ajax() {
+    function ajax(url, json, callback) {
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/words', true);
+        xhr.open('POST', url, true);
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-
-        xhr.send( JSON.stringify({russian:"русский", english:"английский"}) );
-
+        xhr.send(json);
         xhr.onreadystatechange = function () { // (3)
             if (xhr.readyState != 4) return;
             if (xhr.status == 200) {
-                modal.style.display = "none";
+                callback();
             }
         };
     }
-
 
 };
