@@ -46,12 +46,12 @@ window.onload = function () {
 
     var buttonLoadWords = document.getElementById('load');
     buttonLoadWords.onclick = function () {
-      fillTable()
+        fillTable()
     };
 
     function fillTable() {
-        deleteRows();
         ajax('/getWords', null, function (el) {
+            deleteRows();
             addRowsInTable(el)
         })
     }
@@ -60,7 +60,7 @@ window.onload = function () {
 
     function deleteRows() {
         var rowsCount = table.getElementsByTagName("tr").length;
-        for(var i =0; i < rowsCount;i++){
+        for (var i = 0; i < rowsCount; i++) {
             table.deleteRow(0);
         }
     }
