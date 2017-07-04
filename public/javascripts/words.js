@@ -1,5 +1,9 @@
 window.onload = function () {
 
+    var rusInput = document.getElementById('rusInput');
+    var engInput = document.getElementById('engInput');
+
+
     var table = document.getElementById('table');
 
     // Get the modal
@@ -25,7 +29,7 @@ window.onload = function () {
 
     var btnSaveWord = document.getElementById("save");
     btnSaveWord.onclick = function () {
-        var json = JSON.stringify({russian: "русский", english: "английский"});
+        var json = JSON.stringify({russian: rusInput.value, english: engInput.value});
         ajax("/words", json, function () {
             modal.style.display = "none";
         })
@@ -39,7 +43,7 @@ window.onload = function () {
         xhr.onreadystatechange = function () {
             if (xhr.readyState != 4) return;
             if (xhr.status == 200) {
-                callback(JSON.parse(this.responseText));
+                callback(this.responseText);
             }
         };
     }
@@ -52,7 +56,7 @@ window.onload = function () {
     function fillTable() {
         ajax('/getWords', null, function (el) {
             deleteRows();
-            addRowsInTable(el)
+            addRowsInTable(JSON.parse(el))
         })
     }
 
@@ -64,7 +68,6 @@ window.onload = function () {
             table.deleteRow(0);
         }
     }
-
 
     function addRowsInTable(arr) {
         arr.forEach(function (word, index) {
