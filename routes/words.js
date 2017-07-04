@@ -5,7 +5,7 @@ exports.get = function (req, res) {
 };
 
 
-exports.post = function (req, res, next) {
+exports.saveWord = function (req, res, next) {
     var word = new Words({russian: req.body.russian, english: req.body.english});
     word.save(function (err) {
         if (err) {
@@ -13,4 +13,10 @@ exports.post = function (req, res, next) {
         }
         res.sendStatus(200);
     });
+};
+
+exports.getWords = function (req, res, next) {
+    Words.find({}, function(err, users) {
+        res.json(users);
+    })
 };

@@ -1,5 +1,7 @@
 window.onload = function () {
 
+    var table = document.getElementById('table');
+
     // Get the modal
     var modal = document.getElementById('myModal');
     // Get the button that opens the modal
@@ -34,12 +36,47 @@ window.onload = function () {
         xhr.open('POST', url, true);
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
         xhr.send(json);
-        xhr.onreadystatechange = function () { // (3)
+        xhr.onreadystatechange = function () {
             if (xhr.readyState != 4) return;
             if (xhr.status == 200) {
-                callback();
+                callback(JSON.parse(this.responseText));
             }
         };
     }
+
+    var buttonLoadWords = document.getElementById('load');
+    buttonLoadWords.onclick = function () {
+      fillTable()
+    };
+
+    function fillTable() {
+        deleteRows();
+        ajax('/getWords', null, function (el) {
+            addRowsInTable(el)
+        })
+    }
+
+    fillTable();
+
+    function deleteRows() {
+        var rowsCount = table.getElementsByTagName("tr").length;
+        for(var i =0; i < rowsCount;i++){
+            table.deleteRow(0);
+        }
+    }
+
+
+    function addRowsInTable(arr) {
+        arr.forEach(function (word, index) {
+            var row = table.insertRow(index);
+            var cell = row.insertCell(0);
+            cell.innerHTML = word._id;
+            cell = row.insertCell(1);
+            cell.innerHTML = word.russian;
+            cell = row.insertCell(2);
+            cell.innerHTML = word.english;
+        })
+    }
+
 
 };

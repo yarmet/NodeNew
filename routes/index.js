@@ -22,6 +22,8 @@ module.exports = function (app) {
     app.get('/astar', CheckAuth, require('./astar').get);
 
     app.get('/words', CheckAuth, require('./words').get);
-    app.post('/words', CheckAuth, require('./words').post);
+    app.post('/words', CheckAuth, require('./words').saveWord);
+    app.post('/getWords', CheckAuth, require('./words').getWords);
+
 
 };

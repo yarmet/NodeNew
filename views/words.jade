@@ -78,22 +78,26 @@ block content
         .modal-body > *{
             margin: auto 1px;
         }
+        #table td{
+            padding: 10px;
+        }
 
     div.container
         h1 словарь
 
-        button#myBtn Open Modal
+        a#myBtn(href="#") Добавить слово
 
         div#myModal.modal
             div.modal-content
                 div.modal-header
                     span.close &times;
-                    span  добавить слово
                 div.modal-body.form-inline
                     input.form-control(type="text" placeholder="русский")
                     input.form-control(type="text" placeholder="английский")
                     button#save.btn.btn-success сохранить
 
+
+        button#load.btn.btn-success загрузить еще
         table#table
 
     script(src="/javascripts/words.js")
