@@ -80,17 +80,6 @@ class Form extends React.Component {
 }
 
 
-// form(method="post" action="/login" )
-// div.form-group
-// input.form-control(type="username",name="username", placeholder="логин")
-// div.form-group
-// input.form-control(type="password",name="password", placeholder="пароль")
-// div.checkbox
-// label
-// input(type="checkbox",name="remember")
-// span запомнить
-// button#login.btn.btn-success войти
-
 ReactDOM.render(
     React.createElement(Form, null, null),
     document.getElementById('react')
