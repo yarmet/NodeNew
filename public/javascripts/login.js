@@ -60,16 +60,16 @@ class Form extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {buttonDisabled: true};
+        this.state = {sendButtonDisabled: true, sendButtonClass:'btn btn-danger'};
         this.inputChange = this.inputChange.bind(this);
         this.send = this.send.bind(this);
     }
 
     inputChange() {
         if (this.refs.input1.state.isValid && this.refs.input2.state.isValid) {
-            this.setState({buttonDisabled: false})
+            this.setState({sendButtonDisabled: false, sendButtonClass:'btn btn-success'})
         } else {
-            this.setState({buttonDisabled: true})
+            this.setState({sendButtonDisabled: true, sendButtonClass:'btn btn-danger'})
         }
     }
 
@@ -109,8 +109,8 @@ class Form extends React.Component {
 
                 React.createElement('div', {className: "form-group"},
                     React.createElement('button', {
-                        className: 'btn btn-success',
-                        disabled: this.state.buttonDisabled,
+                        className:  this.state.sendButtonClass,
+                        disabled: this.state.sendButtonDisabled,
                         onClick: this.send
                     }, 'отправить')),
                 React.createElement('a', {href: "/registry"}, "зарегистрироваться")
