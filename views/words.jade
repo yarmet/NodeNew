@@ -78,7 +78,12 @@ block content
         .modal-body > *{
             margin: auto 1px;
         }
+
+        #table{
+            border-collapse: collapse;
+        }
         #table td{
+            border: 1px solid black;
             padding: 10px;
         }
 
@@ -95,7 +100,6 @@ block content
                     input#rusInput.form-control(type="text" placeholder="русский")
                     input#engInput.form-control(type="text" placeholder="английский")
                     button#save.btn.btn-success сохранить
-
 
         button#load.btn.btn-success загрузить еще
         table#table
