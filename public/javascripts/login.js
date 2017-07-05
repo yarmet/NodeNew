@@ -1,53 +1,27 @@
 /**
  * Created by ruslan on 05.07.2017.
  */
-
-
-
-function ajax(url, json) {
-    return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        xhr.send(json);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState !== 4) return;
-            if (xhr.status === 200) {
-                resolve(this.response);
-            } else {
-                var error = new Error(this.statusText);
-                error.code = this.status;
-                reject(error);
-            }
-        };
-        xhr.onerror = function () {
-            reject(new Error("Network Error"));
-        };
-    });
-}
-
-
 class Input extends React.Component {
     constructor(props) {
         super(props);
         this.state = {border: "red", isValid: false};
-        this.change = this.change.bind(this);
+        this.inputValueChanged = this.inputValueChanged.bind(this);
     }
 
-    change(e) {
+    inputValueChanged(e) {
         var txt = e.target.value;
         if (txt.length < 3) {
             this.state = {border: "red", isValid: false, value: txt};
         } else {
             this.state = {border: "green", isValid: true, value: txt};
         }
-        this.props.change();
+        this.props.checkToUnblockSubmit();
     }
 
     render() {
         return React.createElement('input', {
             className: "form-control",
-            onChange: this.change,
+            onChange: this.inputValueChanged,
             placeholder: this.props.placeholder,
             type: this.props.type,
             style: {borderColor: this.state.border}
@@ -61,11 +35,11 @@ class Form extends React.Component {
     constructor(props) {
         super(props);
         this.state = {sendButtonDisabled: true, sendButtonClass:'btn btn-danger'};
-        this.inputChange = this.inputChange.bind(this);
+        this.checkToUnblockSubmit = this.checkToUnblockSubmit.bind(this);
         this.send = this.send.bind(this);
     }
 
-    inputChange() {
+    checkToUnblockSubmit() {
         if (this.refs.input1.state.isValid && this.refs.input2.state.isValid) {
             this.setState({sendButtonDisabled: false, sendButtonClass:'btn btn-success'})
         } else {
@@ -93,7 +67,7 @@ class Form extends React.Component {
                         type: "text",
                         ref: "input1",
                         placeholder: "логин",
-                        change: this.inputChange
+                        checkToUnblockSubmit: this.checkToUnblockSubmit
                     }, null)),
 
                 React.createElement('div', {className: "form-group"},
@@ -101,7 +75,7 @@ class Form extends React.Component {
                         type: "password",
                         ref: "input2",
                         placeholder: "пароль",
-                        change: this.inputChange
+                        checkToUnblockSubmit: this.checkToUnblockSubmit
                     }, null)),
                 React.createElement('div', {className: "form-group"},
                     React.createElement("label", {htmlFor: "rem"}, "запомнить"),
