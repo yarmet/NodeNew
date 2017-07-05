@@ -3,6 +3,30 @@
  */
 
 
+
+function ajax(url, json) {
+    return new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.send(json);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState !== 4) return;
+            if (xhr.status === 200) {
+                resolve(this.response);
+            } else {
+                var error = new Error(this.statusText);
+                error.code = this.status;
+                reject(error);
+            }
+        };
+        xhr.onerror = function () {
+            reject(new Error("Network Error"));
+        };
+    });
+}
+
+
 class Input extends React.Component {
     constructor(props) {
         super(props);
@@ -24,6 +48,7 @@ class Input extends React.Component {
         return React.createElement('input', {
             className: "form-control",
             onChange: this.change,
+            placeholder: this.props.placeholder,
             type: this.props.type,
             style: {borderColor: this.state.border}
         }, null);
@@ -49,21 +74,38 @@ class Form extends React.Component {
     }
 
     send() {
-        console.log(this.refs.input1.state.value + " " + this.refs.input2.state.value)
+        ajax("/login", JSON.stringify({
+            username: this.refs.input1.state.value,
+            password: this.refs.input2.state.value,
+            remember: this.refs.rem.checked
+        })).then(function () {
+            window.location.href = "/";
+        }, function (err) {
+            alert(err);
+        })
     }
 
     render() {
         return (
             React.createElement('div', null,
                 React.createElement('div', {className: "form-group"},
-                    React.createElement(Input, {type: "text", ref: "input1", change: this.inputChange}, null)),
+                    React.createElement(Input, {
+                        type: "text",
+                        ref: "input1",
+                        placeholder: "логин",
+                        change: this.inputChange
+                    }, null)),
 
                 React.createElement('div', {className: "form-group"},
-                    React.createElement(Input, {type: "password", ref: "input2", change: this.inputChange}, null)),
-
+                    React.createElement(Input, {
+                        type: "password",
+                        ref: "input2",
+                        placeholder: "пароль",
+                        change: this.inputChange
+                    }, null)),
                 React.createElement('div', {className: "form-group"},
                     React.createElement("label", {htmlFor: "rem"}, "запомнить"),
-                    React.createElement("input", {type: "checkbox", id: "rem"}, null)),
+                    React.createElement("input", {ref: "rem", type: "checkbox", id: "rem"}, null)),
 
                 React.createElement('div', {className: "form-group"},
                     React.createElement('button', {
@@ -71,7 +113,6 @@ class Form extends React.Component {
                         disabled: this.state.buttonDisabled,
                         onClick: this.send
                     }, 'отправить')),
-
                 React.createElement('a', {href: "/registry"}, "зарегистрироваться")
             )
         )
