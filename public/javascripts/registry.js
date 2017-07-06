@@ -12,8 +12,7 @@ class Input extends React.Component {
 
     inputValueChanged(e) {
         var txt = e.target.value;
-        var correct = txt.length >= 3;
-        this.state.isValid = correct;
+        this.state.isValid = txt.length >= 3;
         this.state.text = txt;
         this.props.checkToUnblockSubmit();
     }
@@ -41,9 +40,10 @@ class Form extends React.Component {
     }
 
     checkToUnblockSubmit() {
-        this.state.repeatIsValid = this.refs.password.state.isValid && (this.refs.password.state.text === this.state.repeatText);
-        this.state.allInputsValid = this.refs.login.state.isValid && this.refs.password.state.isValid && this.state.repeatIsValid;
-        this.setState();
+        this.setState({
+            repeatIsValid: this.refs.password.state.isValid && (this.refs.password.state.text === this.state.repeatText),
+            allInputsValid: this.refs.login.state.isValid && this.refs.password.state.isValid && this.state.repeatIsValid
+        });
     }
 
     saveRepeatValue(e) {
