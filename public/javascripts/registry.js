@@ -4,6 +4,7 @@
 
 
 class Input extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {isValid: false};
@@ -40,10 +41,9 @@ class Form extends React.Component {
     }
 
     checkToUnblockSubmit() {
-        this.setState({
-            repeatIsValid: this.refs.password.state.isValid && (this.refs.password.state.text === this.state.repeatText),
-            allInputsValid: this.refs.login.state.isValid && this.refs.password.state.isValid && this.state.repeatIsValid
-        });
+        this.state.repeatIsValid = this.refs.password.state.isValid && (this.refs.password.state.text === this.state.repeatText);
+        this.state.allInputsValid = this.refs.login.state.isValid && this.refs.password.state.isValid && this.state.repeatIsValid;
+        this.setState();
     }
 
     saveRepeatValue(e) {
