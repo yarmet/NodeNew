@@ -12,11 +12,8 @@ class Input extends React.Component {
 
     inputValueChanged(e) {
         var txt = e.target.value;
-        if (txt.length < 3) {
-            this.state = {border: "red", isValid: false, text: txt};
-        } else {
-            this.state = {border: "green", isValid: true, text: txt};
-        }
+        var correct = txt.length >= 3;
+        this.state = {border: correct ? "green" : "red", isValid: correct, text: txt};
         this.props.checkToUnblockSubmit();
     }
 
@@ -38,16 +35,13 @@ class Form extends React.Component {
         super(props);
         this.state = {sendButtonDisabled: true, sendButtonClass: 'btn btn-danger', repeatBorder: "red"};
         this.checkToUnblockSubmit = this.checkToUnblockSubmit.bind(this);
-        this.checkRepeat = this.checkRepeat.bind(this);
+        this.saveRepeatValue = this.saveRepeatValue.bind(this);
         this.send = this.send.bind(this);
     }
 
-
     checkToUnblockSubmit() {
         var repeatIsValid = this.refs.password.state.isValid && (this.refs.password.state.text === this.state.repeatVal);
-
         var allInputsValid = this.refs.login.state.isValid && this.refs.password.state.isValid && repeatIsValid;
-
         this.setState({
             sendButtonDisabled: !allInputsValid
             , sendButtonClass: allInputsValid ? 'btn btn-success' : 'btn btn-danger'
@@ -55,16 +49,15 @@ class Form extends React.Component {
         });
     }
 
-    checkRepeat(e) {
+    saveRepeatValue(e) {
         this.state.repeatVal = e.target.value;
         this.checkToUnblockSubmit();
     }
 
     send() {
         ajax("/registry", JSON.stringify({
-            username: this.refs.input1.state.value,
-            password: this.refs.input2.state.value,
-            remember: this.refs.rem.checked
+            username: this.refs.login.state.value,
+            password: this.refs.password.state.value
         })).then(function () {
             window.location.href = "/";
         }, function (err) {
@@ -99,7 +92,7 @@ class Form extends React.Component {
                         className: "form-control",
                         placeholder: "повторить пароль",
                         style: {borderColor: this.state.repeatBorder},
-                        onChange: this.checkRepeat
+                        onChange: this.saveRepeatValue
                     }, null)),
 
                 React.createElement('div', {className: "form-group"},
@@ -112,14 +105,10 @@ class Form extends React.Component {
                 React.createElement('a', {href: "/login"}, "залогиниться")
             )
         )
-
     }
 }
-
 
 ReactDOM.render(
     React.createElement(Form, null, null),
     document.getElementById('react')
 );
-
-
