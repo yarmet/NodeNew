@@ -40,7 +40,7 @@ class Form extends React.Component {
     }
 
     checkToUnblockSubmit() {
-        var repeatIsValid = this.refs.password.state.isValid && (this.refs.password.state.text === this.state.repeatVal);
+        var repeatIsValid = this.refs.password.state.isValid && (this.refs.password.state.text === this.state.repeatText);
         var allInputsValid = this.refs.login.state.isValid && this.refs.password.state.isValid && repeatIsValid;
         this.setState({
             sendButtonDisabled: !allInputsValid
@@ -50,16 +50,16 @@ class Form extends React.Component {
     }
 
     saveRepeatValue(e) {
-        this.state.repeatVal = e.target.value;
+        this.state.repeatText = e.target.value;
         this.checkToUnblockSubmit();
     }
 
     send() {
         ajax("/registry", JSON.stringify({
-            username: this.refs.login.state.value,
-            password: this.refs.password.state.value
+            username: this.refs.login.state.text,
+            password: this.refs.password.state.text
         })).then(function () {
-            window.location.href = "/";
+            window.location.href = "/login";
         }, function (err) {
             alert(err);
         })

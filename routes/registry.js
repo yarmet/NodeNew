@@ -12,16 +12,12 @@ exports.post = function (req, res, next) {
 
     var username = req.body.username;
     var password = req.body.password;
-    var repeatPassword = req.body.repeat_password;
-
     var reg = /[^A-Z-a-z-0-9]/g;
 
     if (username.length < 3 || username.length > 15) {
         return next(new HttpError(403, 'логин должен быть длинной от 3 до 15 символов'));
     } else if (password.length < 3 || password.length > 15) {
         return next(new HttpError(403, 'пароль должен быть длинной от 3 до 15 символов'));
-    } else if (password !== repeatPassword) {
-        return next(new HttpError(403, 'пароли не совпадают'));
     } else if (reg.test(username)) {
         return next(new HttpError(403, 'логин должен состоять из английских букв, цифр и без пробелов '));
     } else if (reg.test(password)) {
