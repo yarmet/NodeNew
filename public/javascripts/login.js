@@ -4,17 +4,14 @@
 class Input extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {border: "red", isValid: false};
+        this.state = {isValid: false};
         this.inputValueChanged = this.inputValueChanged.bind(this);
     }
 
     inputValueChanged(e) {
         var txt = e.target.value;
-        if (txt.length < 3) {
-            this.state = {border: "red", isValid: false, value: txt};
-        } else {
-            this.state = {border: "green", isValid: true, value: txt};
-        }
+        var correct = txt.length >= 3;
+        this.state = {isValid: correct, value: txt};
         this.props.checkToUnblockSubmit();
     }
 
@@ -24,7 +21,7 @@ class Input extends React.Component {
             onChange: this.inputValueChanged,
             placeholder: this.props.placeholder,
             type: this.props.type,
-            style: {borderColor: this.state.border}
+            style: {borderColor: this.state.isValid ? "green" : "red"}
         }, null);
     }
 }
@@ -34,17 +31,17 @@ class Form extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {sendButtonDisabled: true, sendButtonClass:'btn btn-danger'};
+        this.state = {sendButtonDisabled: true, sendButtonClass: 'btn btn-danger'};
         this.checkToUnblockSubmit = this.checkToUnblockSubmit.bind(this);
         this.send = this.send.bind(this);
     }
 
     checkToUnblockSubmit() {
-        if (this.refs.input1.state.isValid && this.refs.input2.state.isValid) {
-            this.setState({sendButtonDisabled: false, sendButtonClass:'btn btn-success'})
-        } else {
-            this.setState({sendButtonDisabled: true, sendButtonClass:'btn btn-danger'})
-        }
+        var inputsValid = this.refs.input1.state.isValid && this.refs.input2.state.isValid;
+        this.setState({
+            sendButtonDisabled: !inputsValid,
+            sendButtonClass: inputsValid ? 'btn btn-success' : 'btn btn-danger'
+        })
     }
 
     send() {
@@ -83,7 +80,7 @@ class Form extends React.Component {
 
                 React.createElement('div', {className: "form-group"},
                     React.createElement('button', {
-                        className:  this.state.sendButtonClass,
+                        className: this.state.sendButtonClass,
                         disabled: this.state.sendButtonDisabled,
                         onClick: this.send
                     }, 'отправить')),

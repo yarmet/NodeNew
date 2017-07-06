@@ -6,14 +6,14 @@
 class Input extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {border: "red", isValid: false};
+        this.state = {isValid: false};
         this.inputValueChanged = this.inputValueChanged.bind(this);
     }
 
     inputValueChanged(e) {
         var txt = e.target.value;
         var correct = txt.length >= 3;
-        this.state = {border: correct ? "green" : "red", isValid: correct, text: txt};
+        this.state = {isValid: correct, text: txt};
         this.props.checkToUnblockSubmit();
     }
 
@@ -23,7 +23,7 @@ class Input extends React.Component {
             onChange: this.inputValueChanged,
             placeholder: this.props.placeholder,
             type: this.props.type,
-            style: {borderColor: this.state.border}
+            style: {borderColor: this.state.isValid ? "green" : "red"}
         }, null);
     }
 }
