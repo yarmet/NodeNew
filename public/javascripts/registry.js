@@ -13,7 +13,8 @@ class Input extends React.Component {
     inputValueChanged(e) {
         var txt = e.target.value;
         var correct = txt.length >= 3;
-        this.state = {isValid: correct, text: txt};
+        this.state.isValid = correct;
+        this.state.text = txt;
         this.props.checkToUnblockSubmit();
     }
 
@@ -33,20 +34,16 @@ class Form extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {sendButtonDisabled: true, sendButtonClass: 'btn btn-danger', repeatBorder: "red"};
+        this.state = {repeatIsValid: false, allInputsValid: false};
         this.checkToUnblockSubmit = this.checkToUnblockSubmit.bind(this);
         this.saveRepeatValue = this.saveRepeatValue.bind(this);
         this.send = this.send.bind(this);
     }
 
     checkToUnblockSubmit() {
-        var repeatIsValid = this.refs.password.state.isValid && (this.refs.password.state.text === this.state.repeatText);
-        var allInputsValid = this.refs.login.state.isValid && this.refs.password.state.isValid && repeatIsValid;
-        this.setState({
-            sendButtonDisabled: !allInputsValid
-            , sendButtonClass: allInputsValid ? 'btn btn-success' : 'btn btn-danger'
-            , repeatBorder: repeatIsValid ? "green" : "red"
-        });
+        this.state.repeatIsValid = this.refs.password.state.isValid && (this.refs.password.state.text === this.state.repeatText);
+        this.state.allInputsValid = this.refs.login.state.isValid && this.refs.password.state.isValid && this.state.repeatIsValid;
+        this.setState();
     }
 
     saveRepeatValue(e) {
@@ -91,14 +88,14 @@ class Form extends React.Component {
                         ref: "repeat",
                         className: "form-control",
                         placeholder: "повторить пароль",
-                        style: {borderColor: this.state.repeatBorder},
+                        style: {borderColor: this.state.repeatIsValid ? "green" : "red"},
                         onChange: this.saveRepeatValue
                     }, null)),
 
                 React.createElement('div', {className: "form-group"},
                     React.createElement('button', {
-                        className: this.state.sendButtonClass,
-                        disabled: this.state.sendButtonDisabled,
+                        className: this.state.allInputsValid ? "btn btn-success" : "btn btn-danger",
+                        disabled: !this.state.allInputsValid,
                         onClick: this.send
                     }, 'отправить')),
 
