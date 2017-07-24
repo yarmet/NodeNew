@@ -20,12 +20,12 @@ exports.post = function (req, res, next) {
         if (err)  return next(err);
         if (user && user.checkpassword(password)) {
             req.session.user = user.username;
-            if(remember ==="on"){
+            if (remember === true) {
                 req.session.cookie.maxAge = 604800000; // one week
             }
-            res.render('index', { title: 'Express', user:  user.username });
+            res.sendStatus(200)
         } else {
-            return next(new HttpError(403, "не правильный логин или пароль"));
+             next(new HttpError(403, 'пароль должен состоять из английских букв, цифр и без пробелов '));
         }
     });
 };
