@@ -8,8 +8,7 @@ body {
 .container {
   margin-top: 10px;
   border-radius: 5px;
-  background: rgba( 255, 255, 255, 0.85);
-  min-height: 80vh;
+  background: rgba( 255, 255, 255, 0.87);
 }
 
 a {
