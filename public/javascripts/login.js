@@ -5,7 +5,7 @@
 var username = document.getElementById("username");
 var password = document.getElementById("password");
 var button = document.getElementById("submit");
-var rememberCheckBox = document.getElementById("rememberCheckBox");
+var rememberCheckBox = document.getElementById("remember");
 var errorStatus = document.getElementById("errorstatus");
 
 button.disabled = true;
