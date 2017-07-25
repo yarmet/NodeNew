@@ -5,7 +5,7 @@
 var username = document.getElementById("username");
 var password = document.getElementById("password");
 var button = document.getElementById("submit");
-var remember = document.getElementById("remember");
+var rememberCheckBox = document.getElementById("rememberCheckBox");
 var errorStatus = document.getElementById("errorstatus");
 
 button.disabled = true;
@@ -40,7 +40,7 @@ function unblockInput(input, corrected) {
 
 
 button.onclick = function () {
-    var json = JSON.stringify({username: username.value, password: password.value, remember: remember.checked});
+    var json = JSON.stringify({username: username.value, password: password.value, remember: rememberCheckBox.checked});
     ajax("/login", json)
         .then(function (response) {
             window.location.href = "/";

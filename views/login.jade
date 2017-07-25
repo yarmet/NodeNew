@@ -1,7 +1,7 @@
 extends layout
 block content
 
-    link(rel='stylesheet', href='/stylesheets/login.css')
+    link(rel='stylesheet', href='/stylesheets/input.css')
 
     div.container
         div.row
@@ -15,12 +15,13 @@ block content
                         input#password.form-control.red(type="password",name="password",maxlength=15 ,placeholder="пароль", oninput="updateState()")
                     div.checkbox
                         label
-                            input#remember(type="checkbox",name="remember")
+                            input#remember(type="checkbox",name="rememberCheckBox")
                             span запомнить
                     button#submit.btn.btn-danger войти
                     br
                     br
-                    a(href="/registry") зарегистрироваться
+                    a(href="/registry")
+                        h4 зарегистрироваться
                     p#errorstatus
             div.col-lg-4
 
