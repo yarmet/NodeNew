@@ -7,8 +7,8 @@ block content
         div.row
             div.col-lg-4
             div.col-lg-4
-                h3 войти в айти
-                div
+                div#loginBlock
+                    h3 войти в айти
                     div.form-group
                         input#username.form-control.red(type="username",name="username", placeholder="логин", oninput="updateState()")
                     div.form-group
@@ -18,9 +18,11 @@ block content
                             input#remember(type="checkbox",name="remember")
                             span запомнить
                     button#submit.btn.btn-danger войти
-
-                a(href="/registry") зарегистрироваться
-                p#errorstatus
+                    br
+                    br
+                    a(href="/registry") зарегистрироваться
+                    br
+                    p#errorstatus
             div.col-lg-4
 
     script(src="/javascripts/ajax.js")
