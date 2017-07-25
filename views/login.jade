@@ -1,6 +1,7 @@
 extends layout
 block content
 
+    link(rel='stylesheet', href='/stylesheets/login.css')
 
     div.container
         div.row
@@ -9,16 +10,17 @@ block content
                 h3 войти в айти
                 div
                     div.form-group
-                        input#username.form-control(type="username",name="username", placeholder="логин", oninput="updateState()")
+                        input#username.form-control.red(type="username",name="username", placeholder="логин", oninput="updateState()")
                     div.form-group
-                        input#password.form-control(type="password",name="password", placeholder="пароль", oninput="updateState()")
+                        input#password.form-control.red(type="password",name="password", placeholder="пароль", oninput="updateState()")
                     div.checkbox
                         label
                             input#remember(type="checkbox",name="remember")
                             span запомнить
-                    button#login.btn.btn-danger войти
+                    button#submit.btn.btn-danger войти
 
                 a(href="/registry") зарегистрироваться
+                p#errorstatus
             div.col-lg-4
 
     script(src="/javascripts/ajax.js")

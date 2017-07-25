@@ -25,7 +25,7 @@ exports.post = function (req, res, next) {
             }
             res.sendStatus(200)
         } else {
-             next(new HttpError(403, 'пароль должен состоять из английских букв, цифр и без пробелов '));
+            res.status(403).json({description: "нет такой пары логина и пароля"});
         }
     });
 };

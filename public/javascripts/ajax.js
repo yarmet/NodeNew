@@ -13,7 +13,7 @@ function ajax(url, json) {
             if (xhr.status === 200) {
                 resolve(this.response);
             } else {
-                var error = new Error(this.statusText);
+                var error = new Error(this.responseText);
                 error.code = this.status;
                 reject(error);
             }
