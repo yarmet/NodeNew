@@ -22,10 +22,5 @@
     padding: 20px;
     text-align: center;
     background-color: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Параметры тени */
-}
-
-
-text {
-    size: 25px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }

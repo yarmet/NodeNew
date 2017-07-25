@@ -4,24 +4,31 @@
 
 var username = document.getElementById("username");
 var password = document.getElementById("password");
+var repeat = document.getElementById("repeat");
 var button = document.getElementById("submit");
-var remember = document.getElementById("remember");
 var errorStatus = document.getElementById("errorstatus");
 
 button.disabled = true;
 
+
 updateState();
+
 
 function updateState() {
     var usernameCorrected = check(username);
     var passwordCorrected = check(password);
+    var repeatCorrected = passwordCorrected && password.value === repeat.value;
+
     unblockInput(username, usernameCorrected);
     unblockInput(password, passwordCorrected);
-    unblockButton(button, usernameCorrected && passwordCorrected)
+    unblockInput(repeat, repeatCorrected);
+
+    unblockButton(button, usernameCorrected && passwordCorrected && repeatCorrected)
 }
 
+
 function check(input) {
-    var length = input.value.length;
+    var length = input.value.length; // от 3 до 15 и не содержит пробелов
     return length >= 3 && length <= 15 && !(/[^A-Z-a-z-0-9]/g.test(input.value));
 }
 
@@ -40,11 +47,13 @@ function unblockInput(input, corrected) {
 
 
 button.onclick = function () {
-    var json = JSON.stringify({username: username.value, password: password.value, remember: remember.checked});
-    ajax("/login", json)
+    var json = JSON.stringify({username: username.value, password: password.value});
+    ajax("/registry", json)
         .then(function (response) {
             window.location.href = "/";
         }, function (err) {
             errorStatus.innerHTML = JSON.parse(err.message).description;
         })
 };
+
+
