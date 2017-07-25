@@ -8,11 +8,11 @@ block content
             div.col-lg-4
             div.col-lg-4
                 div#loginBlock
-                    h3 войти в айти
+                    h3 Войти в айти
                     div.form-group
-                        input#username.form-control.red(type="username",name="username", placeholder="логин", oninput="updateState()")
+                        input#username.form-control.red(type="username",name="username",maxlength=15, placeholder="логин", oninput="updateState()")
                     div.form-group
-                        input#password.form-control.red(type="password",name="password", placeholder="пароль", oninput="updateState()")
+                        input#password.form-control.red(type="password",name="password",maxlength=15 ,placeholder="пароль", oninput="updateState()")
                     div.checkbox
                         label
                             input#remember(type="checkbox",name="remember")
@@ -21,7 +21,6 @@ block content
                     br
                     br
                     a(href="/registry") зарегистрироваться
-                    br
                     p#errorstatus
             div.col-lg-4
 
